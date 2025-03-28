@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burn Today's Calories</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #f8f8f8; }
+        h1, h2, p { color: #333; }
+        .btn { padding: 10px 15px; font-size: 16px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; }
+        .btn:hover { background: #0056b3; }
+    </style>
+</head>
+<body id="burn-page">
+    <header>
+        <h1>🔥 Burn Today's Calories</h1>
+    </header>
+
+    <main>
+        <h2>🍽️ Today's Intake: <strong id="todays-intake">Loading...</strong> kcal</h2>
+        <p>⚖️ Recommended: 2000 kcal/day</p>
+        <p id="burn-advice">Loading...</p>
+        <p id="suggested-steps">Loading...</p>
+
+        <a href="meal-log.html" class="btn">⬅️ Back to Meal Log</a>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const totalCalories = localStorage.getItem('totalCalories') || 0;
+            document.getElementById('todays-intake').innerText = totalCalories;
+            updateBurnAdvice(totalCalories);
+        });
+
+        function updateBurnAdvice(calories) {
+            document.getElementById('burn-advice').innerText = 
+                calories > 2000 ? "You're over the recommended intake! Consider extra exercise." 
+                                : "You're within the limit. Keep up the good work!";
+
+            const steps = Math.round(calories / 0.04);
+            document.getElementById('suggested-steps').innerText = `Suggested steps to burn: 🚶‍♂️ ${steps} steps`;
+        }
+    </script>
+</body>
+</html>

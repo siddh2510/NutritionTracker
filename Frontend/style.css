@@ -1,0 +1,121 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('background.jpg'); /* Add your background image */
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Main Content */
+main {
+    width: 90%;
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Headings */
+h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 24px;
+    color: #ffcc00;
+}
+
+h3 {
+    font-size: 20px;
+    color: #ffa533;
+    margin-top: 15px;
+}
+
+/* Inputs and Buttons */
+input {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    padding: 12px 18px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: #ff5733;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #d94325;
+}
+
+/* Links as Buttons */
+.btn {
+    display: inline-block;
+    padding: 12px 18px;
+    background: #ff5733;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background: #d94325;
+}
+
+/* Meal Section */
+.meal-section {
+    margin-top: 20px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+/* Graph Styling */
+canvas {
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/* Total Calories Display */
+#total-calories {
+    font-size: 26px;
+    font-weight: bold;
+    color: #00ffcc;
+}
+
+/* Burn Page Suggestions */
+#burn-suggestion, #meal-advice {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 15px;
+    color: #ffcc00;
+}

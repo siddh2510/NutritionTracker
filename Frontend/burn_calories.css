@@ -1,0 +1,34 @@
+/* Meal Log Page Styles */
+#meal-form {
+    margin-bottom: 20px;
+}
+
+#meal-form input {
+    width: 60%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#meal-form button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background: #ff5733;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#meal-form button:hover {
+    background: #d94325;
+}
+
+.chart-container {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 10px;
+}
