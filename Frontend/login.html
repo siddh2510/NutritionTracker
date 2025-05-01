@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://tse1.mm.bing.net/th?id=OIP.gvONO5q6VXfVA43-6tGLeAHaEK&pid=Api&P=0&h=220'); /* Added background image */
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://tse1.mm.bing.net/th?id=OIP.gvONO5q6VXfVA43-6tGLeAHaEK&pid=Api&P=0&h=220');
+
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.8); /* Transparent background for the login container */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo {
+            width: 50px;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            background-color: #fafafa;
+            transition: border 0.3s;
+        }
+
+        .input-field:focus {
+            border: 2px solid #4CAF50;
+            outline: none;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #45a049;
+        }
+
+        .login-button:active {
+            background-color: #388e3c;
+        }
+
+        .footer {
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <img src="https://via.placeholder.com/150" alt="Logo" class="logo"> <!-- Add your logo URL here -->
+        <h2>Login to Your Account</h2>
+        <form id="loginForm">
+            <input type="text" class="input-field" placeholder="Username" required><br>
+            <input type="password" class="input-field" placeholder="Password" required><br>
+            <button type="button" class="login-button" onclick="login()">Login</button>
+        </form>
+        <div class="footer">
+            <p>Don't have an account? <a href="#">Sign Up</a></p>
+        </div>
+    </div>
+
+    <script>
+        function login() {
+            // This is where you would check login credentials if using a backend
+            // For now, we are directly opening the next page when the button is clicked.
+
+            window.location.href = "calori.html";  // Redirect to calori.html
+        }
+    </script>
+
+</body>
+</html>

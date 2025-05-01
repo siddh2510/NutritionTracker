@@ -12,6 +12,8 @@
     </style>
 </head>
 <body id="burn-page">
+    <body style="background: url(https://tse2.mm.bing.net/th?id=OIP.3UjHhUCX0EjEtBlJg0SNHwHaEJ&pid=Api&P=0&h=220) no-repeat center center fixed; background-size: cover;">
+
     <header>
         <h1>🔥 Burn Today's Calories</h1>
     </header>
@@ -24,7 +26,8 @@
 
         <a href="meal-log.html" class="btn">⬅️ Back to Meal Log</a>
     </main>
-
+   
+    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const totalCalories = localStorage.getItem('totalCalories') || 0;
@@ -37,7 +40,7 @@
                 calories > 2000 ? "You're over the recommended intake! Consider extra exercise." 
                                 : "You're within the limit. Keep up the good work!";
 
-            const steps = Math.round(calories / 0.04);
+            const steps = Math.round(calories / 0.04);              
             document.getElementById('suggested-steps').innerText = `Suggested steps to burn: 🚶‍♂️ ${steps} steps`;
         }
     </script>

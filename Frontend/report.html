@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Reports - Daily Calorie Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --accent: #4fc3a1;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        h2 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        
+        .report-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .report-section h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 1rem;
+        }
+        
+        .time-period-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .time-btn {
+            background: white;
+            border: 2px solid var(--accent);
+            color: var(--secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .time-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+        
+        .stat-card h4 {
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-change {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .stat-change.positive {
+            color: #06d6a0;
+        }
+        
+        .stat-change.negative {
+            color: #ff6b6b;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .time-period-selector {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><i class="fas fa-chart-line"></i> Nutrition Reports</h1>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+            
+            <h2>Your Nutrition Analytics</h2>
+            
+            <div class="time-period-selector">
+                <button class="time-btn active" data-period="week">Weekly</button>
+                <button class="time-btn" data-period="month">Monthly</button>
+                <button class="time-btn" data-period="year">Yearly</button>
+            </div>
+            
+            <div class="report-section">
+                <h3><i class="fas fa-fire"></i> Calorie Intake Trend</h3>
+                <div class="chart-container">
+                    <canvas id="calorieChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="report-section">
+                <h3><i class="fas fa-chart-pie"></i> Macronutrient Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="macroChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="report-section">
+                <h3><i class="fas fa-glass-whiskey"></i> Hydration Trend</h3>
+                <div class="chart-container">
+                    <canvas id="waterChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="report-section">
+                <h3><i class="fas fa-chart-bar"></i> Summary Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Average Daily Calories</h4>
+                        <div class="stat-value">1,850</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-down"></i> 5% from last week
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Protein Intake</h4>
+                        <div class="stat-value">92g</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> 8% from last week
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Water Intake</h4>
+                        <div class="stat-value">6.2</div>
+                        <div class="stat-change negative">
+                            <i class="fas fa-arrow-down"></i> 2% from last week
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Goal Completion</h4>
+                        <div class="stat-value">78%</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> 12% from last week
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+   
+    <script>
+        // Sample data for charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Time period selector
+            const timeBtns = document.querySelectorAll('.time-btn');
+            timeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    timeBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateCharts(btn.dataset.period);
+                });
+            });
+            
+            // Initialize charts
+            const calorieCtx = document.getElementById('calorieChart').getContext('2d');
+            const macroCtx = document.getElementById('macroChart').getContext('2d');
+            const waterCtx = document.getElementById('waterChart').getContext('2d');
+            
+            const calorieChart = new Chart(calorieCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Calories Consumed',
+                        data: [1850, 1920, 1780, 1650, 2100, 2300, 1750],
+                        borderColor: '#4a6fa5',
+                        backgroundColor: 'rgba(74, 111, 165, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3
+                    }, {
+                        label: 'Calorie Goal',
+                        data: [2000, 2000, 2000, 2000, 2000, 2000, 2000],
+                        borderColor: '#4fc3a1',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            suggestedMin: 1500
+                        }
+                    }
+                }
+            });
+            
+            const macroChart = new Chart(macroCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Protein', 'Carbohydrates', 'Fats'],
+                    datasets: [{
+                        data: [30, 45, 25],
+                        backgroundColor: [
+                            '#4a6fa5',
+                            '#4fc3a1',
+                            '#ffd166'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+            
+            const waterChart = new Chart(waterCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Glasses of Water',
+                        data: [6, 7, 5, 6, 8, 4, 7],
+                        backgroundColor: '#64b5f6',
+                        borderWidth: 0,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            });
+            
+            // Function to update charts based on selected time period
+            function updateCharts(period) {
+                // In a real app, you would fetch new data based on the period
+                // and update the charts accordingly
+                console.log(`Updating charts for ${period} period`);
+            }
+        });
+    </script>
+</body>
+</html>
