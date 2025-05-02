@@ -1,0 +1,10 @@
+services:
+  - type: static_site
+    name: nutrition-tracker
+    env: static
+    buildCommand: ''
+    publishDirectory: 'build' # or 'dist' if that's where your build files are located
+    staticPublishPath: '/'
+    github:
+      repo: 'siddh2510/NutritionTracker'
+    branch: 'main'
