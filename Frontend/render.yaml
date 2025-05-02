@@ -1,10 +1,14 @@
 services:
-  - type: static_site
-    name: nutrition-tracker
-    env: static
-    buildCommand: 'npm run build'  # or 'yarn build' if using yarn
-    publishDirectory: 'build'
-    staticPublishPath: '/'
+  - type: web
+    name: nutrition-tracker-nodejs
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGODB_URI
+        value: mongodb+srv://<user>:<password>@cluster0.example.mongodb.net/?retryWrites=true&w=majority
+      - key: NODE_ENV
+        value: production
     github:
-      repo: 'siddh2510/NutritionTracker'
-    branch: 'main'
+      repo: siddh2510/NutritionTracker
+      branch: main
