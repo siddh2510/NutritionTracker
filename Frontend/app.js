@@ -3,27 +3,13 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const User = require('./models/User');
-const CalorieEntry = require('./models/CalorieEntry'); // You'll need to create this model
+const CalorieEntry = require('./models/CalorieEntry');
+const Pin = require('./models/Pin'); // Optional if you're using Pins
 
 const app = express();
 
 // ======================
-// Middleware Setupmodels/Pin.js should contain:
-
-javascript
-const mongoose = require('mongoose');
-
-const PinSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-  imageUrl: String,
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-});
-
-module.exports = mongoose.model('Pin', PinSchema);
+// Middleware
 // ======================
 app.use(cors({
   origin: 'http://localhost:5501',
@@ -49,7 +35,7 @@ mongoose.connect(MONGODB_URI, {
 });
 
 // ======================
-// Routes
+// API Routes
 // ======================
 const apiRouter = express.Router();
 
@@ -58,11 +44,11 @@ apiRouter.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', dbState: mongoose.connection.readyState });
 });
 
-// Authentication
+// User login/creation
 apiRouter.post('/login', async (req, res) => {
   try {
     const { username } = req.body;
-    
+
     if (!username || username.trim() === '') {
       return res.status(400).json({ 
         success: false,
@@ -70,12 +56,19 @@ apiRouter.post('/login', async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ username }) || 
-                 await new User({ username }).save();
+    let user = await User.findOne({ username });
+    if (!user) {
+      user = await new User({ username }).save();
+      return res.status(201).json({
+        success: true,
+        message: 'User created successfully',
+        user: { username: user.username }
+      });
+    }
 
-    res.status(user.isNew ? 201 : 200).json({
+    res.status(200).json({
       success: true,
-      message: user.isNew ? 'User created successfully' : 'Welcome back!',
+      message: 'Welcome back!',
       user: { username: user.username }
     });
 
@@ -89,7 +82,7 @@ apiRouter.post('/login', async (req, res) => {
   }
 });
 
-// Calorie Tracking
+// Calorie tracking
 apiRouter.route('/calories')
   .get(async (req, res) => {
     try {
